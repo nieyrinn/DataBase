@@ -1,4 +1,4 @@
-CREATE DATABASE lab4;
+CREATE DATABASE  lab4;
 
 CREATE TABLE Warehouses (
                             WarehouseID INT PRIMARY KEY,
@@ -63,3 +63,4 @@ WHERE WarehouseID = (
     SELECT WarehouseID FROM Warehouses WHERE Location = 'New York'
 )
     RETURNING *;
+
