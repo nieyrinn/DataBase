@@ -33,4 +33,8 @@ delete from countries where population < 100000;
 
 delete from countries_new where country_id in (select country_id from countries) returning *;
 
-delete from countries returning *;
+delete * countries returning *;
+
+
+
+select * from countries where population > 100000;
