@@ -42,7 +42,6 @@ INSERT INTO employees (ssn, name, lastname, department, city) VALUES (745685214,
 INSERT INTO employees (ssn, name, lastname, department, city) VALUES (845657245, 'Elizabeth', 'Doe', 14, 'Almaty');
 INSERT INTO employees (ssn, name, lastname, department, city) VALUES (845657246, 'Kumar', 'Swamy', 14, 'Almaty');
 
--- Вставка данных в таблицу customers
 INSERT INTO customers (name, lastname, city) VALUES ('John', 'Wills', 'Almaty');
 INSERT INTO customers (name, lastname, city) VALUES ('Garry', 'Foster', 'London');
 INSERT INTO customers (name, lastname, city) VALUES ('Amanda', 'Hills', 'Almaty');
@@ -95,4 +94,6 @@ WHERE department = (SELECT code FROM departments WHERE name = 'Research');
 DELETE FROM employees
 WHERE department = (SELECT code FROM departments WHERE name = 'IT');
 
-DELETE * FROM employees;
+DELETE FROM employees;
+
+SELECT name FROM departments ORDER BY budget DESC LIMIT 1 OFFSET 2;
