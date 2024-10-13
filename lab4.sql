@@ -1,66 +1,72 @@
-CREATE DATABASE  lab4;
+CREATE DATABASE lab4;
 
 CREATE TABLE Warehouses (
-                            WarehouseID INT PRIMARY KEY,
-                            Location VARCHAR(100),
-                            Capacity INT
+                            code INT PRIMARY KEY,
+                            location VARCHAR(255),
+                            capacity INT
 );
-
 CREATE TABLE Boxes (
-                       BoxID INT PRIMARY KEY,
-                       Code VARCHAR(10),
-                       Contents VARCHAR(100),
-                       Value DECIMAL(10, 2),
-                       WarehouseID INT,
-                       FOREIGN KEY (WarehouseID) REFERENCES Warehouses(WarehouseID)
+                       code VARCHAR(4) PRIMARY KEY,
+                       contents VARCHAR(255),
+                       value REAL,
+                       warehouse INT,
+                       FOREIGN KEY (warehouse) REFERENCES Warehouses(code)
 );
+INSERT INTO Warehouses (code, location, capacity)
+VALUES
+    (1, 'Chicago', 3),
+    (2, 'Chicago', 4),
+    (3, 'New York', 7),
+    (4, 'Los Angeles', 2),
+    (5, 'San Francisco', 8);
 
-INSERT INTO Warehouses (WarehouseID, Location, Capacity)
-VALUES (1, 'Chicago', 3),
-       (2, 'Los Angeles', 5),
-       (3, 'San Francisco', 2);
-
-INSERT INTO Boxes (BoxID, Code, Contents, Value, WarehouseID)
-VALUES (1, 'A1B2', 'Toys', 100, 1),
-       (2, 'C3D4', 'Books', 150, 2),
-       (3, 'E5F6', 'Clothes', 250, 1),
-       (4, 'G7H8', 'Electronics', 300, 3),
-       (5, 'I9J0', 'Furniture', 180, 2);
-
-INSERT INTO Warehouses (WarehouseID, Location, Capacity)
-VALUES (4, 'New York', 3);
-
-INSERT INTO Boxes (BoxID, Code, Contents, Value, WarehouseID)
-VALUES (6, 'H5RT', 'Papers', 200, 2);
+INSERT INTO Boxes (code, contents, value, warehouse)
+VALUES
+    ('0MN7', 'Rocks', 180, 3),
+    ('4H8P', 'Rocks', 250, 1),
+    ('4RT3', 'Scissors', 190, 4),
+    ('7G3H', 'Rocks', 200, 1),
+    ('8JN6', 'Papers', 75, 1),
+    ('8Y6U', 'Papers', 50, 3),
+    ('9J6F', 'Papers', 175, 2),
+    ('LL08', 'Rocks', 140, 4),
+    ('P0H6', 'Scissors', 125, 1),
+    ('P2T6', 'Scissors', 150, 2),
+    ('TU55', 'Papers', 90, 5);
 
 SELECT * FROM Warehouses;
 
-SELECT * FROM Boxes WHERE Value > 150;
+SELECT * FROM Boxes WHERE value > 150;
 
-SELECT DISTINCT Contents FROM Boxes;
+SELECT DISTINCT contents FROM Boxes;
 
-SELECT WarehouseID, COUNT(BoxID) AS BoxCount
+SELECT warehouse, COUNT(code) AS BoxCount
 FROM Boxes
-GROUP BY WarehouseID;
+GROUP BY warehouse;
 
-SELECT WarehouseID, COUNT(BoxID) AS BoxCount
+SELECT warehouse, COUNT(code) AS BoxCount
 FROM Boxes
-GROUP BY WarehouseID
-HAVING COUNT(BoxID) > 2;
+GROUP BY warehouse
+HAVING COUNT(code) > 2;
+
+INSERT INTO Warehouses (code, location, capacity)
+VALUES (6, 'New York', 3);
+
+INSERT INTO Boxes (code, contents, value, warehouse)
+VALUES ('H5RT', 'Papers', 200, 2);
 
 UPDATE Boxes
-SET Value = Value * 0.85
-WHERE BoxID = (
-    SELECT BoxID FROM Boxes
-    ORDER BY Value DESC
+SET value = value * 0.85
+WHERE code = (
+    SELECT code FROM Boxes
+    ORDER BY value DESC
     LIMIT 1 OFFSET 2
 );
 
-DELETE FROM Boxes WHERE Value < 150;
+DELETE FROM Boxes WHERE value < 150;
 
 DELETE FROM Boxes
-WHERE WarehouseID = (
-    SELECT WarehouseID FROM Warehouses WHERE Location = 'New York'
+WHERE warehouse = (
+    SELECT code FROM Warehouses WHERE location = 'New York'
 )
-    RETURNING *;
-
+RETURNING *;
